@@ -166,6 +166,26 @@ return nil
 }, 3, time.Second) // 最多重试3次，间隔1秒
 ```
 
+### JSON 处理 (ujson)
+
+```go
+import "github.com/chasespace/go-util/ujson"
+
+// 序列化（出错则 panic）
+jsonStr := ujson.MustJSON(map[string]interface{}{
+    "name": "John",
+    "age":  30,
+})
+// {"name":"John","age":30}
+
+// 反序列化（出错则 panic）
+var result map[string]interface{}
+ujson.MustUnmarshal(`{"name":"John","age":30}`, &result)
+
+// 从字节切片反序列化
+ujson.MustUnmarshalBytes([]byte(`{"name":"John","age":30}`), &result)
+```
+
 ### 国际化工具 (ui18)
 
 ```go
