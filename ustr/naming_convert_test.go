@@ -2,63 +2,162 @@ package ustr
 
 import "testing"
 
-func TestCamelToUnderScore(t *testing.T) {
+func TestToSnake(t *testing.T) {
 	tests := []struct {
 		name     string
 		input    string
 		expected string
 	}{
-		{"基本驼峰", "CamelCase", "camel_case"},
-		{"简单单词", "User", "user"},
-		{"多个大写字母", "HTMLParser", "html_parser"},
-		{"连续大写", "XMLHttpRequest", "xml_http_request"},
-		{"数字混合", "UserID2Name", "user_id2_name"},
-		{"_already_snake", "already_snake", "already_snake"},
-		{"空字符串", "", ""},
-		{"单个字符", "A", "a"},
-		{"全大写", "UPPERCASE", "uppercase"},
-		{"全小写", "lowercase", "lowercase"},
-		{"复杂案例", "iPhoneXSMax", "i_phone_xs_max"},
-		{"带数字开头", "Version2Update", "version2_update"},
+		{
+			name:     "驼峰转下划线",
+			input:    "CamelCase",
+			expected: "camel_case",
+		},
+		{
+			name:     "连续大写",
+			input:    "HTMLParser",
+			expected: "html_parser",
+		},
+		{
+			name:     "连字符转下划线",
+			input:    "html-parser",
+			expected: "html_parser",
+		},
+		{
+			name:     "已有的下划线",
+			input:    "already_snake_case",
+			expected: "already_snake_case",
+		},
+		{
+			name:     "混合格式",
+			input:    "Camel-Case_HTML",
+			expected: "camel_case_html",
+		},
+		{
+			name:     "数字混合",
+			input:    "Version2Update",
+			expected: "version2_update",
+		},
+		{
+			name:     "全大写",
+			input:    "UPPERCASE",
+			expected: "uppercase",
+		},
+		{
+			name:     "全小写",
+			input:    "lowercase",
+			expected: "lowercase",
+		},
+		{
+			name:     "空字符串",
+			input:    "",
+			expected: "",
+		},
+		{
+			name:     "单个字符",
+			input:    "A",
+			expected: "a",
+		},
+		{
+			name:     "连续下划线",
+			input:    "multi__underscore___test",
+			expected: "multi_underscore_test",
+		},
+		{
+			name:     "前导后导下划线",
+			input:    "_leading_trailing_",
+			expected: "leading_trailing",
+		},
+		{
+			name:     "特殊字符保持",
+			input:    "Test@Case#123",
+			expected: "test@case#123",
+		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			result := CamelToUnderScore(tt.input)
+			result := ToSnakeCase(tt.input)
 			if result != tt.expected {
-				t.Errorf("CamelToUnderScore(%q) = %q, 期望 %q", tt.input, result, tt.expected)
+				t.Errorf("ToSnakeCase(%q) = %q, want %q", tt.input, result, tt.expected)
 			}
 		})
 	}
 }
 
-func TestUnderScoreToCamel(t *testing.T) {
+func TestToCamel(t *testing.T) {
 	tests := []struct {
 		name     string
 		input    string
 		expected string
 	}{
-		{"基本下划线", "camel_case", "CamelCase"},
-		{"简单单词", "user", "User"},
-		{"多个下划线", "html_parser", "HtmlParser"},
-		{"连续下划线", "xml_http_request", "XmlHttpRequest"},
-		{"带数字", "user_id2_name", "UserId2Name"},
-		{"AlreadyCamel", "AlreadyCamel", "Alreadycamel"},
-		{"空字符串", "", ""},
-		{"单个字符", "a", "A"},
-		{"全大写下划线", "UPPER_CASE", "UpperCase"},
-		{"全小写下划线", "lower_case", "LowerCase"},
-		{"复杂案例", "i_phone_xs_max", "IPhoneXsMax"},
-		{"前导下划线", "_private_field", "PrivateField"},
-		{"尾随下划线", "trailing_", "Trailing"},
-		{"多重下划线", "multi___underscore", "MultiUnderscore"},
+		{
+			name:     "下划线转驼峰",
+			input:    "under_score",
+			expected: "UnderScore",
+		},
+		{
+			name:     "连字符转驼峰",
+			input:    "html-parser",
+			expected: "HtmlParser",
+		},
+		{
+			name:     "小驼峰转大驼峰",
+			input:    "camelCase",
+			expected: "CamelCase",
+		},
+		{
+			name:     "_already_camel",
+			input:    "_already_camel",
+			expected: "AlreadyCamel",
+		},
+		{
+			name:     "mixed-format_string",
+			input:    "mixed-format_string",
+			expected: "MixedFormatString",
+		},
+		{
+			name:     "UPPER_CASE",
+			input:    "UPPER_CASE",
+			expected: "UpperCase",
+		},
+		{
+			name:     "lowercase",
+			input:    "lowercase",
+			expected: "Lowercase",
+		},
+		{
+			name:     "空字符串",
+			input:    "",
+			expected: "",
+		},
+		{
+			name:     "单个字符",
+			input:    "a",
+			expected: "A",
+		},
+		{
+			name:     "连续下划线",
+			input:    "multi__underscore",
+			expected: "MultiUnderscore",
+		},
+		{
+			name:     "前导下划线",
+			input:    "_private_field",
+			expected: "PrivateField",
+		},
+		{
+			name:     "尾随下划线",
+			input:    "trailing_",
+			expected: "Trailing",
+		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			result := UnderScoreToCamel(tt.input)
+			result := ToCamelCase(tt.input)
 			if result != tt.expected {
-				t.Errorf("UnderScoreToCamel(%q) = %q, 期望 %q", tt.input, result, tt.expected)
+				t.Errorf("ToCamelCase(%q) = %q, want %q", tt.input, result, tt.expected)
 			}
 		})
 	}

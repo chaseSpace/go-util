@@ -2,7 +2,6 @@ package uhttp
 
 import (
 	"testing"
-	"time"
 )
 
 func TestDownloadFile(t *testing.T) {
@@ -10,7 +9,7 @@ func TestDownloadFile(t *testing.T) {
 	url := "https://cdn.pixabay.com/audio/2025/09/17/audio_32aeb1ec12.mp3"
 
 	t.Run("下载MP3音频文件", func(t *testing.T) {
-		file, err := DownloadFile(url, 30*time.Second, "audio/mpeg")
+		file, err := DownloadFile(url, "audio/mpeg")
 
 		if err != nil {
 			t.Fatalf("下载失败: %v", err)

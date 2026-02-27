@@ -5,52 +5,90 @@ import (
 	"unicode"
 )
 
-// CamelToUnderScore 将驼峰命名转换为下划线命名
-// 例如: "CamelCase" -> "camel_case", "HTMLParser" -> "html_parser"
-func CamelToUnderScore(s string) string {
+// ToSnakeCase 将字符串转换为snake_case格式（支持多种输入格式）
+// 例如: "CamelCase" -> "camel_case", "html-parser" -> "html_parser", "already_snake" -> "already_snake"
+func ToSnakeCase(s string) string {
 	if s == "" {
 		return ""
 	}
 
-	var result strings.Builder
+	// 统一分隔符处理
+	var normalized strings.Builder
 	runes := []rune(s)
 
 	for i, r := range runes {
-		// 如果是大写字母
-		if unicode.IsUpper(r) {
-			// 添加下划线的条件：
-			// 1. 不是在开头
-			// 2. 前一个字符不是大写，或者
-			// 3. 后面还有小写字母（处理连续大写的情况，如HTMLParser）
+		switch {
+		case unicode.IsUpper(r):
+			// 大写字母前添加下划线（除非是第一个字符或前一个是下划线/特殊字符）
 			if i > 0 {
-				if !unicode.IsUpper(runes[i-1]) ||
-					(i+1 < len(runes) && unicode.IsLower(runes[i+1])) {
-					result.WriteRune('_')
+				prev := runes[i-1]
+				// 只在字母或数字之间添加下划线
+				if (unicode.IsLetter(prev) || unicode.IsDigit(prev)) &&
+					prev != '_' &&
+					(unicode.IsLower(prev) || (i+1 < len(runes) && unicode.IsLower(runes[i+1]))) {
+					normalized.WriteRune('_')
 				}
 			}
-			// 转换为小写
-			result.WriteRune(unicode.ToLower(r))
-		} else {
-			result.WriteRune(r)
+			normalized.WriteRune(unicode.ToLower(r))
+		case r == '-':
+			// 连字符转下划线
+			normalized.WriteRune('_')
+		default:
+			normalized.WriteRune(r)
 		}
 	}
 
-	return result.String()
+	// 处理连续下划线
+	result := normalized.String()
+	var final strings.Builder
+	prevWasUnderscore := false
+
+	for _, r := range result {
+		if r == '_' {
+			if !prevWasUnderscore {
+				final.WriteRune(r)
+				prevWasUnderscore = true
+			}
+		} else {
+			final.WriteRune(r)
+			prevWasUnderscore = false
+		}
+	}
+
+	return strings.Trim(final.String(), "_")
 }
 
-// UnderScoreToCamel 将下划线命名转换为驼峰命名
-// 例如: "under_score" -> "UnderScore", "html_parser" -> "HtmlParser"
-func UnderScoreToCamel(s string) string {
+// ToCamelCase 将字符串转换为驼峰命名格式（支持多种输入格式）
+// 例如: "under_score" -> "UnderScore", "html-parser" -> "HtmlParser", "camelCase" -> "CamelCase"
+func ToCamelCase(s string) string {
 	if s == "" {
 		return ""
 	}
 
-	words := strings.Split(s, "_")
+	// 统一分隔符为下划线
+	s = strings.ReplaceAll(s, "-", "_")
+
+	// 处理驼峰转下划线的情况
+	var normalized strings.Builder
+	runes := []rune(s)
+
+	for i, r := range runes {
+		if unicode.IsUpper(r) && i > 0 {
+			// 在大写字母前添加下划线（除非前一个也是大写）
+			if !unicode.IsUpper(runes[i-1]) {
+				normalized.WriteRune('_')
+			}
+		}
+		normalized.WriteRune(unicode.ToLower(r))
+	}
+
+	// 按下划线分割并转换为驼峰
+	words := strings.Split(normalized.String(), "_")
 	var result strings.Builder
 
 	for _, word := range words {
 		if word != "" {
-			// 首字母大写，其余小写
+			// 首字母大写
 			runes := []rune(word)
 			if len(runes) > 0 {
 				result.WriteRune(unicode.ToUpper(runes[0]))

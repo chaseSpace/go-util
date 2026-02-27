@@ -249,48 +249,6 @@ func TestRandChoice(t *testing.T) {
 	}
 }
 
-func TestRandShuffle(t *testing.T) {
-	original := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
-	shuffled := make([]int, len(original))
-	copy(shuffled, original)
-
-	RandShuffle(shuffled)
-
-	// 验证长度相同
-	if len(shuffled) != len(original) {
-		t.Errorf("打乱后长度不匹配")
-	}
-
-	// 验证元素相同但顺序可能不同
-	originalMap := make(map[int]int)
-	shuffledMap := make(map[int]int)
-
-	for _, v := range original {
-		originalMap[v]++
-	}
-	for _, v := range shuffled {
-		shuffledMap[v]++
-	}
-
-	for k, v := range originalMap {
-		if shuffledMap[k] != v {
-			t.Errorf("元素%d的数量不匹配", k)
-		}
-	}
-
-	// 验证顺序确实改变了（概率很高）
-	sameOrder := true
-	for i := 0; i < len(original); i++ {
-		if original[i] != shuffled[i] {
-			sameOrder = false
-			break
-		}
-	}
-	if sameOrder && len(original) > 1 {
-		t.Logf("警告：打乱后顺序完全相同（小概率事件）")
-	}
-}
-
 func TestRandomness(t *testing.T) {
 	// 测试生成的随机字符串确实不同
 	results := make(map[string]bool)

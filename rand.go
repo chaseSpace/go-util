@@ -90,10 +90,3 @@ func RandChoice[T any](slice []T) T {
 	}
 	return slice[rand.Intn(len(slice))]
 }
-
-// RandShuffle 随机打乱切片
-func RandShuffle[T any](slice []T) {
-	rand.Shuffle(len(slice), func(i, j int) {
-		slice[i], slice[j] = slice[j], slice[i]
-	})
-}
