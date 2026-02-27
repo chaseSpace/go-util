@@ -6,8 +6,7 @@
 
 - 🚀 高性能：优先使用高性能库（如 Sonic JSON）
 - 🔒 安全：内置完善的加密解密功能
-- 📦 零依赖：核心功能零外部依赖
-- ✅ 完整测试：所有函数都有单元测试覆盖
+- ✅ 高测试覆盖率：大部分函数都有单元测试覆盖
 - 🌍 国际化：支持国际手机号解析等功能
 
 ## 安装
@@ -173,8 +172,8 @@ import "github.com/chasespace/go-util/ujson"
 
 // 序列化（出错则 panic）
 jsonStr := ujson.MustJSON(map[string]interface{}{
-    "name": "John",
-    "age":  30,
+"name": "John",
+"age":  30,
 })
 // {"name":"John","age":30}
 
@@ -195,6 +194,28 @@ import "github.com/chasespace/go-util/ui18"
 countryCode, mobile, err := ui18.ParsePhoneNum("8613812345678")
 // countryCode: "86", mobile: "13812345678"
 ```
+
+## 其他常用库推荐
+
+- github.com/bytedance/sonic - 高性能JSON库
+- github.com/casbin/casbin/v2 - 权限控制框架
+- github.com/chaseSpace/lumberjack/v2 - 日志轮转
+- github.com/google/uuid - UUID生成
+- github.com/gorilla/websocket - WebSocket支持
+- github.com/minio/minio-go/v7 - 对象存储客户端
+- github.com/nyaruka/phonenumbers - 电话号码处理
+- github.com/patrickmn/go-cache - 内存缓存
+- github.com/redis/go-redis/v9 - Redis客户端
+- github.com/robfig/cron/v3 - 定时任务
+- github.com/samber/lo - 函数式编程工具
+- github.com/segmentio/ksuid - KSUID生成
+- github.com/spf13/cast - 类型转换
+- github.com/stretchr/testify - 测试工具
+- github.com/tidwall/gjson - JSON解析
+- github.com/xuri/excelize/v2 - Excel处理
+- gopkg.in/gomail.v2 - 邮件发送
+- gorm.io/driver/mysql - MySQL驱动
+- gorm.io/gorm - ORM框架
 
 ## 测试
 
