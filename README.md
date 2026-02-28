@@ -36,185 +36,325 @@ go get github.com/chasespace/go-util
 ### 字符串处理 (ustr)
 
 ```go
-import "github.com/chasespace/go-util/ustr"
+package main
 
-// UTF-8 截断
-s := ustr.TruncateUTF8("你好世界", 2, "...") // "你好..."
+import (
+    "fmt"
 
-// 命名转换
-str := ustr.ToSnakeCase("CamelCase") // "camel_case"
-str = ustr.ToCamelCase("under_score") // "UnderScore"
-str = ustr.ToKebabCase("CamelCase") // "camel-case"
+    "github.com/chasespace/go-util/ustr"
+)
+
+func main() {
+    truncated := ustr.TruncateUTF8("你好世界", 2, "...")
+    snake := ustr.ToSnakeCase("CamelCase")
+    camel := ustr.ToCamelCase("under_score")
+    kebab := ustr.ToKebabCase("CamelCase")
+
+    fmt.Println("truncated:", truncated)
+    fmt.Println("snake:", snake)
+    fmt.Println("camel:", camel)
+    fmt.Println("kebab:", kebab)
+}
 ```
 
 ### 随机数生成 (rand)
 
 ```go
-import "github.com/chasespace/go-util/rand"
+package main
 
-// 生成随机字符串
-str := rand.RandStr(16)        // "aB3dE5fG7hI9jK1l"
-str = rand.RandStrDigit(6)     // "123456"
-str = rand.RandStrLetter(8) // "aBcDeFgH"
+import (
+    "fmt"
 
-// 随机数
-num := rand.RandInt(1, 100) // 42
-f := rand.RandFloat(0.0, 1.0) // 0.7234
+    "github.com/chasespace/go-util"
+)
+
+func main() {
+    str := go_util.RandStr(16)
+    digits := go_util.RandStrDigit(6)
+    letters := go_util.RandStrLetter(8)
+    num := go_util.RandInt(1, 100)
+    f := go_util.RandFloat(0.0, 1.0)
+
+    fmt.Println("random string:", str)
+    fmt.Println("random digits:", digits)
+    fmt.Println("random letters:", letters)
+    fmt.Println("random int:", num)
+    fmt.Printf("random float: %.4f\n", f)
+}
 ```
 
 ### 时间日期操作 (utime)
 
 ```go
-import "github.com/chasespace/go-util/utime"
+package main
 
-// 日期数字
-dateNum := utime.DateNumber() // 20250227
+import (
+    "fmt"
+    "time"
 
-// 时间范围
-start := utime.DayStartTime() // 今日 00:00:00
-end := utime.DayEndTime() // 今日 23:59:59
-yesterdayStart := utime.YesterdayStartTime()
+    "github.com/chasespace/go-util"
+)
 
-// 日期判断
-sameDay := utime.IsSameDay(time.Now(), time.Now()) // true
-days := utime.DaysBetween(t1, t2) // 3
+func main() {
+    now := time.Now()
+    dateNum := go_util.DateNumber()
+    start := go_util.DayStartTime()
+    end := go_util.DayEndTime()
+    yesterdayStart := go_util.YesterdayStartTime()
 
-// 周与月
-weekStart := utime.BeginningOfWeek(time.Now())
-weekEnd := utime.EndOfWeek(time.Now())
-monthStart, monthEnd, _ := utime.GetMonthStartEnd(time.Now())
+    sameDay := go_util.IsSameDay(now, now)
+    days := go_util.DaysBetween(now.AddDate(0, 0, -3), now)
+
+    weekStart := go_util.BeginningOfWeek(now)
+    weekEnd := go_util.EndOfWeek(now)
+    monthStart, monthEnd, err := go_util.GetMonthStartEnd(now)
+    if err != nil {
+        fmt.Println("GetMonthStartEnd error:", err)
+        return
+    }
+
+    fmt.Println("date number:", dateNum)
+    fmt.Println("today range:", start, "->", end)
+    fmt.Println("yesterday start:", yesterdayStart)
+    fmt.Println("same day now:", sameDay)
+    fmt.Println("days between:", days)
+    fmt.Println("week range:", weekStart, "->", weekEnd)
+    fmt.Println("month range:", monthStart, "->", monthEnd)
+}
 ```
 
 ### 正则验证 (uregex)
 
 ```go
-import "github.com/chasespace/go-util/uregex"
+package main
 
-// 验证
-valid := uregex.IsIP("192.168.1.1")           // true
-valid = uregex.IsIPv4("192.168.1.1")          // true
-valid = uregex.IsIPv6("::1") // true
-valid = uregex.IsChinaPhone("13812345678") // true
-valid = uregex.IsEmail("test@example.com") // true
-valid = uregex.IsURL("https://example.com") // true
-valid = uregex.IsChinaIDCard("110101199001011234") // true
+import (
+    "fmt"
 
-// 数据脱敏
-masked := uregex.MaskPhone("13812345678") // "138****5678"
-masked = uregex.MaskEmail("test@example.com") // "t***t@example.com"
+    "github.com/chasespace/go-util"
+)
+
+func main() {
+    fmt.Println("IsIP:", go_util.IsIP("192.168.1.1"))
+    fmt.Println("IsIPv4:", go_util.IsIPv4("192.168.1.1"))
+    fmt.Println("IsIPv6:", go_util.IsIPv6("::1"))
+    fmt.Println("IsChinaPhone:", go_util.IsChinaPhone("13812345678"))
+    fmt.Println("IsEmail:", go_util.IsEmail("test@example.com"))
+    fmt.Println("IsURL:", go_util.IsURL("https://example.com"))
+    fmt.Println("IsChinaIDCard:", go_util.IsChinaIDCard("110101199001011234"))
+    fmt.Println("Masked phone:", go_util.MaskPhone("13812345678"))
+    fmt.Println("Masked email:", go_util.MaskEmail("test@example.com"))
+}
 ```
 
 ### 加密解密 (ucrypto)
 
 ```go
-import "github.com/chasespace/go-util/ucrypto"
+package main
 
-// AES 加密解密
-key := []byte("16-byte-key-1234")
-plaintext := []byte("Hello, World!")
-ciphertext, _ := ucrypto.AESEncrypt(plaintext, key)
-decrypted, _ := ucrypto.AESDecrypt(ciphertext, key)
+import (
+    "fmt"
 
-// RSA 加密解密
-privateKey, publicKey, _ := ucrypto.GenerateRSAKeyPair(2048)
-encrypted, _ := ucrypto.RSAEncrypt([]byte("secret"), publicKey)
-decrypted, _ := ucrypto.RSADecrypt(encrypted, privateKey)
+    "github.com/chasespace/go-util/ucrypto"
+)
 
-// RSA 签名验签
-signature, _ := ucrypto.RSASign([]byte("data"), privateKey)
-err := ucrypto.RSAVerify([]byte("data"), signature, publicKey)
+func main() {
+    key := []byte("16-byte-key-1234")
+    plaintext := []byte("Hello, World!")
+    ciphertext, err := ucrypto.AESEncrypt(plaintext, key)
+    if err != nil {
+        fmt.Println("AES encrypt error:", err)
+        return
+    }
+    decrypted, err := ucrypto.AESDecrypt(ciphertext, key)
+    if err != nil {
+        fmt.Println("AES decrypt error:", err)
+        return
+    }
+    fmt.Println("AES decrypted:", string(decrypted))
 
-// 哈希计算
-hash := ucrypto.MD5("hello") // "5d41402abc4b2a76b9719d911017c592"
-hash = ucrypto.SHA1("hello") // "aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d"
-hash = ucrypto.SHA256("hello") // "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"
-hash = ucrypto.SHA512("hello") // "9b71d224bd62f3785d96d46ad3ea3d73319bfbc2890caadae2dff72519673ca72323c3d99ba5c11d7c7acc6e14b8c5da0c4663475c2e5c3adef46f73bcdec043"
-hash = ucrypto.Murmur32("hello")      // "3a6c7b2a"
+    priv, pub, err := ucrypto.GenerateRSAKeyPair(2048)
+    if err != nil {
+        fmt.Println("RSA key gen error:", err)
+        return
+    }
+    encrypted, err := ucrypto.RSAEncrypt([]byte("secret"), pub)
+    if err != nil {
+        fmt.Println("RSA encrypt error:", err)
+        return
+    }
+    decryptedRSA, err := ucrypto.RSADecrypt(encrypted, priv)
+    if err != nil {
+        fmt.Println("RSA decrypt error:", err)
+        return
+    }
+    fmt.Println("RSA decrypted:", string(decryptedRSA))
 
-// PEM 格式转换
-pemPriv := ucrypto.PrivateKeyToPEM(privateKey)
-pemPub := ucrypto.PublicKeyToPEM(publicKey)
-privKey, _ := ucrypto.PEMToPrivateKey(pemPriv)
-pubKey, _ := ucrypto.PEMToPublicKey(pemPub)
+    signature, err := ucrypto.RSASign([]byte("data"), priv)
+    if err != nil {
+        fmt.Println("RSA sign error:", err)
+        return
+    }
+    if err := ucrypto.RSAVerify([]byte("data"), signature, pub); err != nil {
+        fmt.Println("RSA verify failed:", err)
+        return
+    }
+    fmt.Println("RSA signature verified")
+
+    fmt.Println("MD5:", ucrypto.MD5("hello"))
+    fmt.Println("SHA1:", ucrypto.SHA1("hello"))
+    fmt.Println("SHA256:", ucrypto.SHA256("hello"))
+    fmt.Println("SHA512:", ucrypto.SHA512("hello"))
+    fmt.Println("Murmur32:", ucrypto.Murmur32("hello"))
+
+    pemPriv := ucrypto.PrivateKeyToPEM(priv)
+    pemPub := ucrypto.PublicKeyToPEM(pub)
+    restoredPriv, err := ucrypto.PEMToPrivateKey(pemPriv)
+    if err != nil {
+        fmt.Println("PEM to private key error:", err)
+        return
+    }
+    restoredPub, err := ucrypto.PEMToPublicKey(pemPub)
+    if err != nil {
+        fmt.Println("PEM to public key error:", err)
+        return
+    }
+    fmt.Println("PEM roundtrip successful:", restoredPriv != nil && restoredPub != nil)
+}
 ```
 
 ### 文件操作 (ufile)
 
 ```go
-import "github.com/chasespace/go-util/ufile"
+package main
 
-// 计算文件 MD5
-md5Hash, err := ufile.GetFileMD5("/path/to/file.txt")
+import (
+    "fmt"
+
+    "github.com/chasespace/go-util/ufile"
+)
+
+func main() {
+    md5Hash, err := ufile.GetFileMD5("README.md")
+    if err != nil {
+        fmt.Println("GetFileMD5 error:", err)
+        return
+    }
+    fmt.Println("README.md MD5:", md5Hash)
+}
 ```
 
 ### Go 语言工具 (ugo)
 
 ```go
-import "github.com/chasespace/go-util/ugo"
+package main
 
-// 异常捕获
-ugo.Protect(func () {
-// 可能 panic 的代码
-}, func (err interface{}) {
-// 异常处理
-})
+import (
+    "fmt"
+    "time"
 
-// 重试机制
-err := ugo.Retry(func () error {
-// 可能失败的操作
-return nil
-}, 3, time.Second) // 最多重试3次，间隔1秒
+    "github.com/chasespace/go-util/ugo"
+)
+
+func main() {
+    ugo.Protect(func() {
+        panic("simulated panic")
+    }, func(err interface{}) {
+        fmt.Println("caught panic:", err)
+    })
+
+    err := ugo.Retry(func() error {
+        return fmt.Errorf("simulated failure")
+    }, 3, time.Second)
+    if err != nil {
+        fmt.Println("retry failed:", err)
+        return
+    }
+    fmt.Println("retry succeeded")
+}
 ```
 
 ### JSON 处理 (ujson)
 
 ```go
-import "github.com/chasespace/go-util/ujson"
+package main
 
-// 序列化（出错则 panic）
-jsonStr := ujson.MustJSON(map[string]interface{}{
-"name": "John",
-"age":  30,
-})
-// {"name":"John","age":30}
+import (
+    "fmt"
 
-// 反序列化（出错则 panic）
-var result map[string]interface{}
-ujson.MustUnmarshal(`{"name":"John","age":30}`, &result)
+    "github.com/chasespace/go-util/ujson"
+)
 
-// 从字节切片反序列化
-ujson.MustUnmarshalBytes([]byte(`{"name":"John","age":30}`), &result)
+func main() {
+    payload := map[string]interface{}{
+        "name": "John",
+        "age":  30,
+    }
+    jsonStr := ujson.MustJSON(payload)
+    fmt.Println("serialized:", jsonStr)
+
+    var result map[string]interface{}
+    ujson.MustUnmarshal(jsonStr, &result)
+    fmt.Println("deserialized:", result)
+
+    ujson.MustUnmarshalBytes([]byte(jsonStr), &result)
+    fmt.Println("deserialized from bytes:", result)
+}
 ```
 
 ### 国际化工具 (ui18)
 
 ```go
-import "github.com/chasespace/go-util/ui18"
+package main
 
-// 解析国际手机号
-countryCode, mobile, err := ui18.ParsePhoneNum("8613812345678")
-// countryCode: "86", mobile: "13812345678"
+import (
+    "fmt"
+
+    "github.com/chasespace/go-util/ui18"
+)
+
+func main() {
+    countryCode, mobile, err := ui18.ParsePhoneNum("8613812345678")
+    if err != nil {
+        fmt.Println("parse error:", err)
+        return
+    }
+    fmt.Println("countryCode:", countryCode)
+    fmt.Println("mobile:", mobile)
+}
 ```
 
 ### 统一错误管理 (uerr)
 
 ```go
-import (
-"fmt"
+package main
 
-"github.com/chasespace/go-util/uerr"
+import (
+    "fmt"
+
+    "github.com/chasespace/go-util/uerr"
 )
 
-func handle(err error) {
-// 任何 error 都可以转成 XErr，链路上统一携带码、明细、堆栈
-x := uerr.ToXErr(err)
-fmt.Println("code:", x.Code())
-fmt.Println("detail:", x.Detail())
-fmt.Println("stack:\n", x.FormatStack())
+func main() {
+    sampleErr := fmt.Errorf("connection refused")
+    handled := handle(sampleErr)
+    fmt.Println("handled code:", handled.Code())
+
+    mysqlErr := fmt.Errorf("timeout")
+    wrapped := wrapMySQLError(mysqlErr)
+    fmt.Println("wrapped detail:", wrapped.Detail())
+}
+
+func handle(err error) *uerr.XErr {
+    // 任何 error 都可以转成 XErr，链路上统一携带码、明细、堆栈
+    x := uerr.ToXErr(err)
+    fmt.Println("detail:", x.Detail())
+    fmt.Println("stack:\n", x.FormatStack())
+    return x
 }
 
 func wrapMySQLError(mysqlErr error) *uerr.XErr {
-return uerr.NewWithError(uerr.CodeMySQLError, mysqlErr, "query failed")
+    return uerr.NewWithError(uerr.CodeMySQLError, mysqlErr, "query failed")
 }
 ```
 
