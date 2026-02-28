@@ -4,7 +4,9 @@ go 1.25.6
 
 require (
 	github.com/bytedance/sonic v1.15.0
+	github.com/google/uuid v1.6.0
 	github.com/hajimehoshi/go-mp3 v0.3.4
+	github.com/lionsoul2014/ip2region/binding/golang v0.0.0-20260226062615-1a8d01d9679e
 	github.com/nyaruka/phonenumbers v1.6.10
 	github.com/samber/lo v1.52.0
 	github.com/spaolacci/murmur3 v1.1.0

@@ -1,4 +1,4 @@
-package xerr
+package uerr
 
 import (
 	"errors"
@@ -6,22 +6,22 @@ import (
 	"runtime"
 )
 
-type XErr struct {
+type UErr struct {
 	code        Code
 	inputDetail string
 	stack       []uintptr
 }
 
-func New(code Code) *XErr {
-	e := &XErr{
+func New(code Code) *UErr {
+	e := &UErr{
 		code: code,
 	}
 	e.setCallerStack()
 	return e
 }
 
-func NewWithDetail(code Code, detail string) *XErr {
-	e := &XErr{
+func NewWithDetail(code Code, detail string) *UErr {
+	e := &UErr{
 		code:        code,
 		inputDetail: detail,
 	}
@@ -29,8 +29,8 @@ func NewWithDetail(code Code, detail string) *XErr {
 	return e
 }
 
-func NewWithError(code Code, err error, detail string) *XErr {
-	e := &XErr{
+func NewWithError(code Code, err error, detail string) *UErr {
+	e := &UErr{
 		code:        code,
 		inputDetail: fmt.Sprintf("%s: %v", detail, err),
 	}
@@ -38,7 +38,7 @@ func NewWithError(code Code, err error, detail string) *XErr {
 	return e
 }
 
-func (e *XErr) Error() string {
+func (e *UErr) Error() string {
 	detail := e.inputDetail
 	if detail == "" {
 		detail = e.code.Detail()
@@ -46,7 +46,7 @@ func (e *XErr) Error() string {
 	return fmt.Sprintf("[%d] - %s", e.code, detail)
 }
 
-func (e *XErr) setCallerStack() {
+func (e *UErr) setCallerStack() {
 	if e.code == CodeSuccess {
 		return
 	}
@@ -57,7 +57,7 @@ func (e *XErr) setCallerStack() {
 	e.stack = stack[:n]
 }
 
-func (e *XErr) FormatStack() string {
+func (e *UErr) FormatStack() string {
 	if e.stack == nil {
 		return ""
 	}
@@ -76,11 +76,11 @@ func (e *XErr) FormatStack() string {
 	return stackInfo
 }
 
-func (e *XErr) Code() Code {
+func (e *UErr) Code() Code {
 	return e.code
 }
 
-func (e *XErr) Detail() string {
+func (e *UErr) Detail() string {
 	if e.inputDetail == "" {
 		return e.code.Detail()
 	}
@@ -142,12 +142,12 @@ func (c Code) Detail() string {
 	return "undefined error code"
 }
 
-// ToXErr 进程内传递的err，转化为xerr，返回值永远非空
-func ToXErr(err error) *XErr {
+// ToUErr 进程内传递的err，转化为xerr，返回值永远非空
+func ToUErr(err error) *UErr {
 	if err == nil {
 		return New(CodeSuccess)
 	}
-	var e *XErr
+	var e *UErr
 	if errors.As(err, &e) {
 		return e
 	}

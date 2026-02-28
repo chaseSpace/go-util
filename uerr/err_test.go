@@ -1,4 +1,4 @@
-package xerr
+package uerr
 
 import (
 	"errors"
@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func TestXErrBasics(t *testing.T) {
+func TestUErrBasics(t *testing.T) {
 	t.Run("default detail", func(t *testing.T) {
 		e := New(CodeInternalError)
 		expected := "CodeInternalError"
@@ -43,17 +43,17 @@ func TestFormatStackContainsTestFile(t *testing.T) {
 	}
 }
 
-func TestToXErr(t *testing.T) {
+func TestToUErr(t *testing.T) {
 	t.Run("nil error", func(t *testing.T) {
-		e := ToXErr(nil)
+		e := ToUErr(nil)
 		if e.Code() != CodeSuccess {
 			t.Fatalf("want success, got %d", e.Code())
 		}
 	})
 
-	t.Run("already xerr", func(t *testing.T) {
+	t.Run("already UErr", func(t *testing.T) {
 		e0 := New(CodeMySQLError)
-		e := ToXErr(e0)
+		e := ToUErr(e0)
 		if e != e0 {
 			t.Fatalf("expected same pointer, got new one")
 		}
@@ -61,7 +61,7 @@ func TestToXErr(t *testing.T) {
 
 	t.Run("generic error", func(t *testing.T) {
 		err := errors.New("boom")
-		e := ToXErr(err)
+		e := ToUErr(err)
 		if e.Code() != CodeInternalError {
 			t.Fatalf("expected internal error, got %d", e.Code())
 		}
@@ -79,10 +79,10 @@ func TestRegisterCodeDetail(t *testing.T) {
 	}
 }
 
-func buildStack() *XErr {
+func buildStack() *UErr {
 	return level1()
 }
 
-func level1() *XErr { return level2() }
-func level2() *XErr { return level3() }
-func level3() *XErr { return New(CodeInternalError) }
+func level1() *UErr { return level2() }
+func level2() *UErr { return level3() }
+func level3() *UErr { return New(CodeInternalError) }

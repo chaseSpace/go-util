@@ -17,19 +17,22 @@ go get github.com/chasespace/go-util
 
 ## 模块列表
 
-| 模块        | 功能描述               | 包路径                                     |
-|-----------|--------------------|-----------------------------------------|
-| `ustr`    | 字符串处理              | `github.com/chasespace/go-util/ustr`    |
-| `rand`    | 随机字符/数字/emoji生成等   | `github.com/chasespace/go-util/rand`    |
-| `utime`   | 时间日期操作             | `github.com/chasespace/go-util/utime`   |
-| `uregex`  | 正则表达式验证            | `github.com/chasespace/go-util/uregex`  |
-| `ucrypto` | 加密解密与哈希            | `github.com/chasespace/go-util/ucrypto` |
-| `ufile`   | 文件操作               | `github.com/chasespace/go-util/ufile`   |
-| `ugo`     | Go 语言工具函数          | `github.com/chasespace/go-util/ugo`     |
-| `ujson`   | JSON 处理（基于 Sonic）  | `github.com/chasespace/go-util/ujson`   |
-| `uhttp`   | HTTP 客户端（基于 Resty） | `github.com/chasespace/go-util/uhttp`   |
-| `ui18`    | 国际化工具              | `github.com/chasespace/go-util/ui18`    |
-| `uerr`    | 统一错误包装与码管理         | `github.com/chasespace/go-util/uerr`    |
+| 模块          | 功能描述               | 包路径                                     |
+|-------------|--------------------|-----------------------------------------|
+| `ustr`      | 字符串处理              | `github.com/chasespace/go-util/ustr`    |
+| `rand`      | 随机字符/数字/emoji生成等   | `github.com/chasespace/go-util/rand`    |
+| `utime`     | 时间日期操作             | `github.com/chasespace/go-util/utime`   |
+| `uregex`    | 正则表达式验证            | `github.com/chasespace/go-util/uregex`  |
+| `ucrypto`   | 加密解密与哈希            | `github.com/chasespace/go-util/ucrypto` |
+| `ufile`     | 文件操作               | `github.com/chasespace/go-util/ufile`   |
+| `ugo`       | Go 语言工具函数          | `github.com/chasespace/go-util/ugo`     |
+| `ujson`     | JSON 处理（基于 Sonic）  | `github.com/chasespace/go-util/ujson`   |
+| `uhttp`     | HTTP 客户端（基于 Resty） | `github.com/chasespace/go-util/uhttp`   |
+| `ui18`      | 国际化工具              | `github.com/chasespace/go-util/ui18`    |
+| `uerr`      | 统一错误包装与码管理         | `github.com/chasespace/go-util/uerr`    |
+| `uip`       | IP 归属与地理位置查询       | `github.com/chasespace/go-util/uip`     |
+| `uid`       | UUID 拓展 UID 生成     | `github.com/chasespace/go-util/uid`     |
+| `lifecycle` | 优雅生命周期管理           | `github.com/chasespace/go-util`         |
 
 ## 快速开始
 
@@ -39,21 +42,21 @@ go get github.com/chasespace/go-util
 package main
 
 import (
-    "fmt"
+	"fmt"
 
-    "github.com/chasespace/go-util/ustr"
+	"github.com/chasespace/go-util/ustr"
 )
 
 func main() {
-    truncated := ustr.TruncateUTF8("你好世界", 2, "...")
-    snake := ustr.ToSnakeCase("CamelCase")
-    camel := ustr.ToCamelCase("under_score")
-    kebab := ustr.ToKebabCase("CamelCase")
+	truncated := ustr.TruncateUTF8("你好世界", 2, "...")
+	snake := ustr.ToSnakeCase("CamelCase")
+	camel := ustr.ToCamelCase("under_score")
+	kebab := ustr.ToKebabCase("CamelCase")
 
-    fmt.Println("truncated:", truncated)
-    fmt.Println("snake:", snake)
-    fmt.Println("camel:", camel)
-    fmt.Println("kebab:", kebab)
+	fmt.Println("truncated:", truncated)
+	fmt.Println("snake:", snake)
+	fmt.Println("camel:", camel)
+	fmt.Println("kebab:", kebab)
 }
 ```
 
@@ -63,23 +66,23 @@ func main() {
 package main
 
 import (
-    "fmt"
+	"fmt"
 
-    "github.com/chasespace/go-util"
+	"github.com/chasespace/go-util"
 )
 
 func main() {
-    str := go_util.RandStr(16)
-    digits := go_util.RandStrDigit(6)
-    letters := go_util.RandStrLetter(8)
-    num := go_util.RandInt(1, 100)
-    f := go_util.RandFloat(0.0, 1.0)
+	str := go_util.RandStr(16)
+	digits := go_util.RandStrDigit(6)
+	letters := go_util.RandStrLetter(8)
+	num := go_util.RandInt(1, 100)
+	f := go_util.RandFloat(0.0, 1.0)
 
-    fmt.Println("random string:", str)
-    fmt.Println("random digits:", digits)
-    fmt.Println("random letters:", letters)
-    fmt.Println("random int:", num)
-    fmt.Printf("random float: %.4f\n", f)
+	fmt.Println("random string:", str)
+	fmt.Println("random digits:", digits)
+	fmt.Println("random letters:", letters)
+	fmt.Println("random int:", num)
+	fmt.Printf("random float: %.4f\n", f)
 }
 ```
 
@@ -89,37 +92,37 @@ func main() {
 package main
 
 import (
-    "fmt"
-    "time"
+	"fmt"
+	"time"
 
-    "github.com/chasespace/go-util"
+	"github.com/chasespace/go-util"
 )
 
 func main() {
-    now := time.Now()
-    dateNum := go_util.DateNumber()
-    start := go_util.DayStartTime()
-    end := go_util.DayEndTime()
-    yesterdayStart := go_util.YesterdayStartTime()
+	now := time.Now()
+	dateNum := go_util.DateNumber()
+	start := go_util.DayStartTime()
+	end := go_util.DayEndTime()
+	yesterdayStart := go_util.YesterdayStartTime()
 
-    sameDay := go_util.IsSameDay(now, now)
-    days := go_util.DaysBetween(now.AddDate(0, 0, -3), now)
+	sameDay := go_util.IsSameDay(now, now)
+	days := go_util.DaysBetween(now.AddDate(0, 0, -3), now)
 
-    weekStart := go_util.BeginningOfWeek(now)
-    weekEnd := go_util.EndOfWeek(now)
-    monthStart, monthEnd, err := go_util.GetMonthStartEnd(now)
-    if err != nil {
-        fmt.Println("GetMonthStartEnd error:", err)
-        return
-    }
+	weekStart := go_util.BeginningOfWeek(now)
+	weekEnd := go_util.EndOfWeek(now)
+	monthStart, monthEnd, err := go_util.GetMonthStartEnd(now)
+	if err != nil {
+		fmt.Println("GetMonthStartEnd error:", err)
+		return
+	}
 
-    fmt.Println("date number:", dateNum)
-    fmt.Println("today range:", start, "->", end)
-    fmt.Println("yesterday start:", yesterdayStart)
-    fmt.Println("same day now:", sameDay)
-    fmt.Println("days between:", days)
-    fmt.Println("week range:", weekStart, "->", weekEnd)
-    fmt.Println("month range:", monthStart, "->", monthEnd)
+	fmt.Println("date number:", dateNum)
+	fmt.Println("today range:", start, "->", end)
+	fmt.Println("yesterday start:", yesterdayStart)
+	fmt.Println("same day now:", sameDay)
+	fmt.Println("days between:", days)
+	fmt.Println("week range:", weekStart, "->", weekEnd)
+	fmt.Println("month range:", monthStart, "->", monthEnd)
 }
 ```
 
@@ -129,21 +132,21 @@ func main() {
 package main
 
 import (
-    "fmt"
+	"fmt"
 
-    "github.com/chasespace/go-util"
+	"github.com/chasespace/go-util"
 )
 
 func main() {
-    fmt.Println("IsIP:", go_util.IsIP("192.168.1.1"))
-    fmt.Println("IsIPv4:", go_util.IsIPv4("192.168.1.1"))
-    fmt.Println("IsIPv6:", go_util.IsIPv6("::1"))
-    fmt.Println("IsChinaPhone:", go_util.IsChinaPhone("13812345678"))
-    fmt.Println("IsEmail:", go_util.IsEmail("test@example.com"))
-    fmt.Println("IsURL:", go_util.IsURL("https://example.com"))
-    fmt.Println("IsChinaIDCard:", go_util.IsChinaIDCard("110101199001011234"))
-    fmt.Println("Masked phone:", go_util.MaskPhone("13812345678"))
-    fmt.Println("Masked email:", go_util.MaskEmail("test@example.com"))
+	fmt.Println("IsIP:", go_util.IsIP("192.168.1.1"))
+	fmt.Println("IsIPv4:", go_util.IsIPv4("192.168.1.1"))
+	fmt.Println("IsIPv6:", go_util.IsIPv6("::1"))
+	fmt.Println("IsChinaPhone:", go_util.IsChinaPhone("13812345678"))
+	fmt.Println("IsEmail:", go_util.IsEmail("test@example.com"))
+	fmt.Println("IsURL:", go_util.IsURL("https://example.com"))
+	fmt.Println("IsChinaIDCard:", go_util.IsChinaIDCard("110101199001011234"))
+	fmt.Println("Masked phone:", go_util.MaskPhone("13812345678"))
+	fmt.Println("Masked email:", go_util.MaskEmail("test@example.com"))
 }
 ```
 
@@ -153,73 +156,73 @@ func main() {
 package main
 
 import (
-    "fmt"
+	"fmt"
 
-    "github.com/chasespace/go-util/ucrypto"
+	"github.com/chasespace/go-util/ucrypto"
 )
 
 func main() {
-    key := []byte("16-byte-key-1234")
-    plaintext := []byte("Hello, World!")
-    ciphertext, err := ucrypto.AESEncrypt(plaintext, key)
-    if err != nil {
-        fmt.Println("AES encrypt error:", err)
-        return
-    }
-    decrypted, err := ucrypto.AESDecrypt(ciphertext, key)
-    if err != nil {
-        fmt.Println("AES decrypt error:", err)
-        return
-    }
-    fmt.Println("AES decrypted:", string(decrypted))
+	key := []byte("16-byte-key-1234")
+	plaintext := []byte("Hello, World!")
+	ciphertext, err := ucrypto.AESEncrypt(plaintext, key)
+	if err != nil {
+		fmt.Println("AES encrypt error:", err)
+		return
+	}
+	decrypted, err := ucrypto.AESDecrypt(ciphertext, key)
+	if err != nil {
+		fmt.Println("AES decrypt error:", err)
+		return
+	}
+	fmt.Println("AES decrypted:", string(decrypted))
 
-    priv, pub, err := ucrypto.GenerateRSAKeyPair(2048)
-    if err != nil {
-        fmt.Println("RSA key gen error:", err)
-        return
-    }
-    encrypted, err := ucrypto.RSAEncrypt([]byte("secret"), pub)
-    if err != nil {
-        fmt.Println("RSA encrypt error:", err)
-        return
-    }
-    decryptedRSA, err := ucrypto.RSADecrypt(encrypted, priv)
-    if err != nil {
-        fmt.Println("RSA decrypt error:", err)
-        return
-    }
-    fmt.Println("RSA decrypted:", string(decryptedRSA))
+	priv, pub, err := ucrypto.GenerateRSAKeyPair(2048)
+	if err != nil {
+		fmt.Println("RSA key gen error:", err)
+		return
+	}
+	encrypted, err := ucrypto.RSAEncrypt([]byte("secret"), pub)
+	if err != nil {
+		fmt.Println("RSA encrypt error:", err)
+		return
+	}
+	decryptedRSA, err := ucrypto.RSADecrypt(encrypted, priv)
+	if err != nil {
+		fmt.Println("RSA decrypt error:", err)
+		return
+	}
+	fmt.Println("RSA decrypted:", string(decryptedRSA))
 
-    signature, err := ucrypto.RSASign([]byte("data"), priv)
-    if err != nil {
-        fmt.Println("RSA sign error:", err)
-        return
-    }
-    if err := ucrypto.RSAVerify([]byte("data"), signature, pub); err != nil {
-        fmt.Println("RSA verify failed:", err)
-        return
-    }
-    fmt.Println("RSA signature verified")
+	signature, err := ucrypto.RSASign([]byte("data"), priv)
+	if err != nil {
+		fmt.Println("RSA sign error:", err)
+		return
+	}
+	if err := ucrypto.RSAVerify([]byte("data"), signature, pub); err != nil {
+		fmt.Println("RSA verify failed:", err)
+		return
+	}
+	fmt.Println("RSA signature verified")
 
-    fmt.Println("MD5:", ucrypto.MD5("hello"))
-    fmt.Println("SHA1:", ucrypto.SHA1("hello"))
-    fmt.Println("SHA256:", ucrypto.SHA256("hello"))
-    fmt.Println("SHA512:", ucrypto.SHA512("hello"))
-    fmt.Println("Murmur32:", ucrypto.Murmur32("hello"))
+	fmt.Println("MD5:", ucrypto.MD5("hello"))
+	fmt.Println("SHA1:", ucrypto.SHA1("hello"))
+	fmt.Println("SHA256:", ucrypto.SHA256("hello"))
+	fmt.Println("SHA512:", ucrypto.SHA512("hello"))
+	fmt.Println("Murmur32:", ucrypto.Murmur32("hello"))
 
-    pemPriv := ucrypto.PrivateKeyToPEM(priv)
-    pemPub := ucrypto.PublicKeyToPEM(pub)
-    restoredPriv, err := ucrypto.PEMToPrivateKey(pemPriv)
-    if err != nil {
-        fmt.Println("PEM to private key error:", err)
-        return
-    }
-    restoredPub, err := ucrypto.PEMToPublicKey(pemPub)
-    if err != nil {
-        fmt.Println("PEM to public key error:", err)
-        return
-    }
-    fmt.Println("PEM roundtrip successful:", restoredPriv != nil && restoredPub != nil)
+	pemPriv := ucrypto.PrivateKeyToPEM(priv)
+	pemPub := ucrypto.PublicKeyToPEM(pub)
+	restoredPriv, err := ucrypto.PEMToPrivateKey(pemPriv)
+	if err != nil {
+		fmt.Println("PEM to private key error:", err)
+		return
+	}
+	restoredPub, err := ucrypto.PEMToPublicKey(pemPub)
+	if err != nil {
+		fmt.Println("PEM to public key error:", err)
+		return
+	}
+	fmt.Println("PEM roundtrip successful:", restoredPriv != nil && restoredPub != nil)
 }
 ```
 
@@ -229,18 +232,18 @@ func main() {
 package main
 
 import (
-    "fmt"
+	"fmt"
 
-    "github.com/chasespace/go-util/ufile"
+	"github.com/chasespace/go-util/ufile"
 )
 
 func main() {
-    md5Hash, err := ufile.GetFileMD5("README.md")
-    if err != nil {
-        fmt.Println("GetFileMD5 error:", err)
-        return
-    }
-    fmt.Println("README.md MD5:", md5Hash)
+	md5Hash, err := ufile.GetFileMD5("README.md")
+	if err != nil {
+		fmt.Println("GetFileMD5 error:", err)
+		return
+	}
+	fmt.Println("README.md MD5:", md5Hash)
 }
 ```
 
@@ -250,27 +253,27 @@ func main() {
 package main
 
 import (
-    "fmt"
-    "time"
+	"fmt"
+	"time"
 
-    "github.com/chasespace/go-util/ugo"
+	"github.com/chasespace/go-util/ugo"
 )
 
 func main() {
-    ugo.Protect(func() {
-        panic("simulated panic")
-    }, func(err interface{}) {
-        fmt.Println("caught panic:", err)
-    })
+	ugo.Protect(func() {
+		panic("simulated panic")
+	}, func(err interface{}) {
+		fmt.Println("caught panic:", err)
+	})
 
-    err := ugo.Retry(func() error {
-        return fmt.Errorf("simulated failure")
-    }, 3, time.Second)
-    if err != nil {
-        fmt.Println("retry failed:", err)
-        return
-    }
-    fmt.Println("retry succeeded")
+	err := ugo.Retry(func() error {
+		return fmt.Errorf("simulated failure")
+	}, 3, time.Second)
+	if err != nil {
+		fmt.Println("retry failed:", err)
+		return
+	}
+	fmt.Println("retry succeeded")
 }
 ```
 
@@ -280,25 +283,25 @@ func main() {
 package main
 
 import (
-    "fmt"
+	"fmt"
 
-    "github.com/chasespace/go-util/ujson"
+	"github.com/chasespace/go-util/ujson"
 )
 
 func main() {
-    payload := map[string]interface{}{
-        "name": "John",
-        "age":  30,
-    }
-    jsonStr := ujson.MustJSON(payload)
-    fmt.Println("serialized:", jsonStr)
+	payload := map[string]interface{}{
+		"name": "John",
+		"age":  30,
+	}
+	jsonStr := ujson.MustJSON(payload)
+	fmt.Println("serialized:", jsonStr)
 
-    var result map[string]interface{}
-    ujson.MustUnmarshal(jsonStr, &result)
-    fmt.Println("deserialized:", result)
+	var result map[string]interface{}
+	ujson.MustUnmarshal(jsonStr, &result)
+	fmt.Println("deserialized:", result)
 
-    ujson.MustUnmarshalBytes([]byte(jsonStr), &result)
-    fmt.Println("deserialized from bytes:", result)
+	ujson.MustUnmarshalBytes([]byte(jsonStr), &result)
+	fmt.Println("deserialized from bytes:", result)
 }
 ```
 
@@ -308,19 +311,19 @@ func main() {
 package main
 
 import (
-    "fmt"
+	"fmt"
 
-    "github.com/chasespace/go-util/ui18"
+	"github.com/chasespace/go-util/ui18"
 )
 
 func main() {
-    countryCode, mobile, err := ui18.ParsePhoneNum("8613812345678")
-    if err != nil {
-        fmt.Println("parse error:", err)
-        return
-    }
-    fmt.Println("countryCode:", countryCode)
-    fmt.Println("mobile:", mobile)
+	countryCode, mobile, err := ui18.ParsePhoneNum("8613812345678")
+	if err != nil {
+		fmt.Println("parse error:", err)
+		return
+	}
+	fmt.Println("countryCode:", countryCode)
+	fmt.Println("mobile:", mobile)
 }
 ```
 
@@ -330,31 +333,98 @@ func main() {
 package main
 
 import (
-    "fmt"
+	"fmt"
 
-    "github.com/chasespace/go-util/uerr"
+	"github.com/chasespace/go-util/uerr"
 )
 
 func main() {
-    sampleErr := fmt.Errorf("connection refused")
-    handled := handle(sampleErr)
-    fmt.Println("handled code:", handled.Code())
+	sampleErr := fmt.Errorf("connection refused")
+	handled := handle(sampleErr)
+	fmt.Println("handled code:", handled.Code())
 
-    mysqlErr := fmt.Errorf("timeout")
-    wrapped := wrapMySQLError(mysqlErr)
-    fmt.Println("wrapped detail:", wrapped.Detail())
+	mysqlErr := fmt.Errorf("timeout")
+	wrapped := wrapMySQLError(mysqlErr)
+	fmt.Println("wrapped detail:", wrapped.Detail())
 }
 
-func handle(err error) *uerr.XErr {
-    // 任何 error 都可以转成 XErr，链路上统一携带码、明细、堆栈
-    x := uerr.ToXErr(err)
-    fmt.Println("detail:", x.Detail())
-    fmt.Println("stack:\n", x.FormatStack())
-    return x
+func handle(err error) *uerr.UErr {
+	// 任何 error 都可以转成 UErr，链路上统一携带码、明细、堆栈
+	x := uerr.ToUErr(err)
+	fmt.Println("detail:", x.Detail())
+	fmt.Println("stack:\n", x.FormatStack())
+	return x
 }
 
-func wrapMySQLError(mysqlErr error) *uerr.XErr {
-    return uerr.NewWithError(uerr.CodeMySQLError, mysqlErr, "query failed")
+func wrapMySQLError(mysqlErr error) *uerr.UErr {
+	return uerr.NewWithError(uerr.CodeMySQLError, mysqlErr, "query failed")
+}
+```
+
+### IP 归属 (uip)
+
+```go
+package main
+
+import (
+	"fmt"
+	"log"
+
+	"github.com/chasespace/go-util/uip"
+)
+
+func main() {
+	uip.MustInitIp2Region("testdata/ip2region_v4.xdb")
+	defer uip.CloseIp2Region()
+
+	detail, err := uip.SearchIPv4("114.114.114.114")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf("ip detail: %+v\n", detail)
+}
+```
+
+### UID 生成 (uid)
+
+```go
+package main
+
+import (
+	"fmt"
+	"log"
+
+	uidsdk "github.com/chasespace/go-util/uid"
+)
+
+func main() {
+	uid, err := uidsdk.GetUIDWithUUID(10)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println("uid:", uid)
+}
+```
+
+### 生命周期管理 (lifecycle)
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"time"
+
+	"github.com/chasespace/go-util"
+)
+
+func main() {
+	fmt.Println("service running; send SIGINT/SIGTERM to trigger shutdown")
+	go_util.Listening(5*time.Second, func(ctx context.Context) {
+		fmt.Println("graceful shutdown starting")
+	})
 }
 ```
 
