@@ -1,4 +1,4 @@
-module github.com/chasespace/go-util
+module github.com/chasespace/goutil
 
 go 1.25.6
 

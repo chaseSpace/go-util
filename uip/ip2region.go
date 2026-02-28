@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/chasespace/go-util/uerr"
+	"github.com/chasespace/goutil/uerr"
 	"github.com/lionsoul2014/ip2region/binding/golang/service"
 	"github.com/lionsoul2014/ip2region/binding/golang/xdb"
 )

@@ -72,11 +72,11 @@ import (
 )
 
 func main() {
-	str := go_util.RandStr(16)
-	digits := go_util.RandStrDigit(6)
-	letters := go_util.RandStrLetter(8)
-	num := go_util.RandInt(1, 100)
-	f := go_util.RandFloat(0.0, 1.0)
+	str := goutil.RandStr(16)
+	digits := goutil.RandStrDigit(6)
+	letters := goutil.RandStrLetter(8)
+	num := goutil.RandInt(1, 100)
+	f := goutil.RandFloat(0.0, 1.0)
 
 	fmt.Println("random string:", str)
 	fmt.Println("random digits:", digits)
@@ -100,17 +100,17 @@ import (
 
 func main() {
 	now := time.Now()
-	dateNum := go_util.DateNumber()
-	start := go_util.DayStartTime()
-	end := go_util.DayEndTime()
-	yesterdayStart := go_util.YesterdayStartTime()
+	dateNum := goutil.DateNumber()
+	start := goutil.DayStartTime()
+	end := goutil.DayEndTime()
+	yesterdayStart := goutil.YesterdayStartTime()
 
-	sameDay := go_util.IsSameDay(now, now)
-	days := go_util.DaysBetween(now.AddDate(0, 0, -3), now)
+	sameDay := goutil.IsSameDay(now, now)
+	days := goutil.DaysBetween(now.AddDate(0, 0, -3), now)
 
-	weekStart := go_util.BeginningOfWeek(now)
-	weekEnd := go_util.EndOfWeek(now)
-	monthStart, monthEnd, err := go_util.GetMonthStartEnd(now)
+	weekStart := goutil.BeginningOfWeek(now)
+	weekEnd := goutil.EndOfWeek(now)
+	monthStart, monthEnd, err := goutil.GetMonthStartEnd(now)
 	if err != nil {
 		fmt.Println("GetMonthStartEnd error:", err)
 		return
@@ -138,15 +138,15 @@ import (
 )
 
 func main() {
-	fmt.Println("IsIP:", go_util.IsIP("192.168.1.1"))
-	fmt.Println("IsIPv4:", go_util.IsIPv4("192.168.1.1"))
-	fmt.Println("IsIPv6:", go_util.IsIPv6("::1"))
-	fmt.Println("IsChinaPhone:", go_util.IsChinaPhone("13812345678"))
-	fmt.Println("IsEmail:", go_util.IsEmail("test@example.com"))
-	fmt.Println("IsURL:", go_util.IsURL("https://example.com"))
-	fmt.Println("IsChinaIDCard:", go_util.IsChinaIDCard("110101199001011234"))
-	fmt.Println("Masked phone:", go_util.MaskPhone("13812345678"))
-	fmt.Println("Masked email:", go_util.MaskEmail("test@example.com"))
+	fmt.Println("IsIP:", goutil.IsIP("192.168.1.1"))
+	fmt.Println("IsIPv4:", goutil.IsIPv4("192.168.1.1"))
+	fmt.Println("IsIPv6:", goutil.IsIPv6("::1"))
+	fmt.Println("IsChinaPhone:", goutil.IsChinaPhone("13812345678"))
+	fmt.Println("IsEmail:", goutil.IsEmail("test@example.com"))
+	fmt.Println("IsURL:", goutil.IsURL("https://example.com"))
+	fmt.Println("IsChinaIDCard:", goutil.IsChinaIDCard("110101199001011234"))
+	fmt.Println("Masked phone:", goutil.MaskPhone("13812345678"))
+	fmt.Println("Masked email:", goutil.MaskEmail("test@example.com"))
 }
 ```
 
@@ -422,7 +422,7 @@ import (
 
 func main() {
 	fmt.Println("service running; send SIGINT/SIGTERM to trigger shutdown")
-	go_util.Listening(5*time.Second, func(ctx context.Context) {
+	goutil.Listening(5*time.Second, func(ctx context.Context) {
 		fmt.Println("graceful shutdown starting")
 	})
 }
