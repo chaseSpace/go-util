@@ -1,4 +1,4 @@
-package sdk
+package uid
 
 import (
 	"fmt"
