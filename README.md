@@ -1,4 +1,4 @@
-# go-util
+# goutil
 
 一个轻量级、高性能的 Go 实用工具库，提供常用的字符串处理、随机数生成、时间操作、加密解密、文件操作等实用函数。
 
@@ -12,27 +12,27 @@
 ## 安装
 
 ```bash
-go get github.com/chasespace/go-util
+go get github.com/chasespace/goutil
 ```
 
 ## 模块列表
 
 | 模块          | 功能描述               | 包路径                                     |
 |-------------|--------------------|-----------------------------------------|
-| `ustr`      | 字符串处理              | `github.com/chasespace/go-util/ustr`    |
-| `rand`      | 随机字符/数字/emoji生成等   | `github.com/chasespace/go-util/rand`    |
-| `utime`     | 时间日期操作             | `github.com/chasespace/go-util/utime`   |
-| `uregex`    | 正则表达式验证            | `github.com/chasespace/go-util/uregex`  |
-| `ucrypto`   | 加密解密与哈希            | `github.com/chasespace/go-util/ucrypto` |
-| `ufile`     | 文件操作               | `github.com/chasespace/go-util/ufile`   |
-| `ugo`       | Go 语言工具函数          | `github.com/chasespace/go-util/ugo`     |
-| `ujson`     | JSON 处理（基于 Sonic）  | `github.com/chasespace/go-util/ujson`   |
-| `uhttp`     | HTTP 客户端（基于 Resty） | `github.com/chasespace/go-util/uhttp`   |
-| `ui18`      | 国际化工具              | `github.com/chasespace/go-util/ui18`    |
-| `uerr`      | 统一错误包装与码管理         | `github.com/chasespace/go-util/uerr`    |
-| `uip`       | IP 归属与地理位置查询       | `github.com/chasespace/go-util/uip`     |
-| `uid`       | UUID 拓展 UID 生成     | `github.com/chasespace/go-util/uid`     |
-| `lifecycle` | 优雅生命周期管理           | `github.com/chasespace/go-util`         |
+| `ustr`      | 字符串处理              | `github.com/chasespace/goutil/ustr`    |
+| `rand`      | 随机字符/数字/emoji生成等   | `github.com/chasespace/goutil/rand`    |
+| `utime`     | 时间日期操作             | `github.com/chasespace/goutil/utime`   |
+| `uregex`    | 正则表达式验证            | `github.com/chasespace/goutil/uregex`  |
+| `ucrypto`   | 加密解密与哈希            | `github.com/chasespace/goutil/ucrypto` |
+| `ufile`     | 文件操作               | `github.com/chasespace/goutil/ufile`   |
+| `ugo`       | Go 语言工具函数          | `github.com/chasespace/goutil/ugo`     |
+| `ujson`     | JSON 处理（基于 Sonic）  | `github.com/chasespace/goutil/ujson`   |
+| `uhttp`     | HTTP 客户端（基于 Resty） | `github.com/chasespace/goutil/uhttp`   |
+| `ui18`      | 国际化工具              | `github.com/chasespace/goutil/ui18`    |
+| `uerr`      | 统一错误包装与码管理         | `github.com/chasespace/goutil/uerr`    |
+| `uip`       | IP 归属与地理位置查询       | `github.com/chasespace/goutil/uip`     |
+| `uid`       | UUID 拓展 UID 生成     | `github.com/chasespace/goutil/uid`     |
+| `lifecycle` | 优雅生命周期管理           | `github.com/chasespace/goutil`         |
 
 ## 快速开始
 
@@ -44,7 +44,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/chasespace/go-util/ustr"
+	"github.com/chasespace/goutil/ustr"
 )
 
 func main() {
@@ -68,7 +68,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/chasespace/go-util"
+	"github.com/chasespace/goutil"
 )
 
 func main() {
@@ -95,7 +95,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/chasespace/go-util"
+	"github.com/chasespace/goutil"
 )
 
 func main() {
@@ -134,7 +134,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/chasespace/go-util"
+	"github.com/chasespace/goutil"
 )
 
 func main() {
@@ -158,7 +158,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/chasespace/go-util/ucrypto"
+	"github.com/chasespace/goutil/ucrypto"
 )
 
 func main() {
@@ -234,7 +234,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/chasespace/go-util/ufile"
+	"github.com/chasespace/goutil/ufile"
 )
 
 func main() {
@@ -256,7 +256,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/chasespace/go-util/ugo"
+	"github.com/chasespace/goutil/ugo"
 )
 
 func main() {
@@ -285,7 +285,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/chasespace/go-util/ujson"
+	"github.com/chasespace/goutil/ujson"
 )
 
 func main() {
@@ -313,7 +313,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/chasespace/go-util/ui18"
+	"github.com/chasespace/goutil/ui18"
 )
 
 func main() {
@@ -335,7 +335,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/chasespace/go-util/uerr"
+	"github.com/chasespace/goutil/uerr"
 )
 
 func main() {
@@ -370,7 +370,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/chasespace/go-util/uip"
+	"github.com/chasespace/goutil/uip"
 )
 
 func main() {
@@ -395,7 +395,7 @@ import (
 	"fmt"
 	"log"
 
-	uidsdk "github.com/chasespace/go-util/uid"
+	uidsdk "github.com/chasespace/goutil/uid"
 )
 
 func main() {
@@ -417,7 +417,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/chasespace/go-util"
+	"github.com/chasespace/goutil"
 )
 
 func main() {
