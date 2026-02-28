@@ -6,7 +6,7 @@
 
 - 🚀 高性能：优先使用高性能库（如 Sonic JSON）
 - 🔒 安全：内置完善的加密解密功能
-- ✅ 高测试覆盖率：大部分函数都有单元测试覆盖
+- 🧪 测试完备：核心功能均包含详尽的测试用例
 - 🌍 国际化：支持国际手机号解析等功能
 
 ## 安装
@@ -20,7 +20,7 @@ go get github.com/chasespace/go-util
 | 模块        | 功能描述               | 包路径                                     |
 |-----------|--------------------|-----------------------------------------|
 | `ustr`    | 字符串处理              | `github.com/chasespace/go-util/ustr`    |
-| `rand`    | 随机数生成              | `github.com/chasespace/go-util/rand`    |
+| `rand`    | 随机字符/数字/emoji生成等   | `github.com/chasespace/go-util/rand`    |
 | `utime`   | 时间日期操作             | `github.com/chasespace/go-util/utime`   |
 | `uregex`  | 正则表达式验证            | `github.com/chasespace/go-util/uregex`  |
 | `ucrypto` | 加密解密与哈希            | `github.com/chasespace/go-util/ucrypto` |
@@ -29,6 +29,7 @@ go get github.com/chasespace/go-util
 | `ujson`   | JSON 处理（基于 Sonic）  | `github.com/chasespace/go-util/ujson`   |
 | `uhttp`   | HTTP 客户端（基于 Resty） | `github.com/chasespace/go-util/uhttp`   |
 | `ui18`    | 国际化工具              | `github.com/chasespace/go-util/ui18`    |
+| `uerr`    | 统一错误包装与码管理         | `github.com/chasespace/go-util/uerr`    |
 
 ## 快速开始
 
@@ -193,6 +194,28 @@ import "github.com/chasespace/go-util/ui18"
 // 解析国际手机号
 countryCode, mobile, err := ui18.ParsePhoneNum("8613812345678")
 // countryCode: "86", mobile: "13812345678"
+```
+
+### 统一错误管理 (uerr)
+
+```go
+import (
+"fmt"
+
+"github.com/chasespace/go-util/uerr"
+)
+
+func handle(err error) {
+// 任何 error 都可以转成 XErr，链路上统一携带码、明细、堆栈
+x := uerr.ToXErr(err)
+fmt.Println("code:", x.Code())
+fmt.Println("detail:", x.Detail())
+fmt.Println("stack:\n", x.FormatStack())
+}
+
+func wrapMySQLError(mysqlErr error) *uerr.XErr {
+return uerr.NewWithError(uerr.CodeMySQLError, mysqlErr, "query failed")
+}
 ```
 
 ## 其他常用库推荐
