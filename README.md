@@ -17,8 +17,8 @@ go get github.com/chasespace/goutil
 
 ## 模块列表
 
-| 模块          | 功能描述               | 包路径                                     |
-|-------------|--------------------|-----------------------------------------|
+| 模块          | 功能描述               | 包路径                                    |
+|-------------|--------------------|----------------------------------------|
 | `ustr`      | 字符串处理              | `github.com/chasespace/goutil/ustr`    |
 | `rand`      | 随机字符/数字/emoji生成等   | `github.com/chasespace/goutil/rand`    |
 | `utime`     | 时间日期操作             | `github.com/chasespace/goutil/utime`   |
@@ -395,11 +395,11 @@ import (
 	"fmt"
 	"log"
 
-	uidsdk "github.com/chasespace/goutil/uid"
+	"github.com/chasespace/goutil/uidgen"
 )
 
 func main() {
-	uid, err := uidsdk.GetUIDWithUUID(10)
+	uid, err := uidgen.GetUIDWithUUID(10)
 	if err != nil {
 		log.Fatal(err)
 	}

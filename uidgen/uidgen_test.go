@@ -1,4 +1,4 @@
-package uid
+package uidgen
 
 import (
 	"fmt"
