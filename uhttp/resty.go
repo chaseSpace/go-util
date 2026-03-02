@@ -73,61 +73,85 @@ func Get(url string, headers map[string]string, to ...time.Duration) ([]byte, er
 	return io.ReadAll(resp.Body)
 }
 
-// PostJSON 发送POST JSON请求
-// data 接受obj-str/struct/map
-func PostJSON(url string, data interface{}, headers map[string]string, to ...time.Duration) ([]byte, error) {
+// PostRequestOption 定义POST请求的选项
+type PostRequestOption struct {
+	URL         string
+	Headers     map[string]string
+	Timeout     time.Duration
+	ContentType string
+}
+
+// postRequest 执行通用的POST请求
+func postRequest(option PostRequestOption, setData func(*resty.Request)) ([]byte, error) {
 	client := resty.New()
-	if len(to) > 0 && to[0] > 0 {
-		client.SetTimeout(to[0])
+	if option.Timeout > 0 {
+		client.SetTimeout(option.Timeout)
 	} else {
 		client.SetTimeout(defaultTimeout)
 	}
 
 	req := client.R()
-	req.SetBody(data)
-	req.SetHeader("Content-Type", ContentTypeJSON)
 
-	for k, v := range headers {
+	// 设置数据
+	setData(req)
+
+	// 设置Content-Type
+	if option.ContentType != "" {
+		req.SetHeader("Content-Type", option.ContentType)
+	}
+
+	// 设置头部
+	for k, v := range option.Headers {
 		req.SetHeader(k, v)
 	}
 
-	resp, err := req.Post(url)
+	resp, err := req.Post(option.URL)
 	if err != nil {
-		return nil, fmt.Errorf("POST JSON request failed: %w", err)
+		return nil, fmt.Errorf("POST request failed: %w", err)
 	}
 
 	if resp.StatusCode() < 200 || resp.StatusCode() >= 300 {
-		return nil, fmt.Errorf("POST JSON failed, status code: %d", resp.StatusCode())
+		return nil, fmt.Errorf("POST failed, status code: %d", resp.StatusCode())
 	}
 
 	return io.ReadAll(resp.Body)
 }
 
+// PostJSON 发送POST JSON请求
+// data 接受obj-str/struct/map
+func PostJSON(url string, data interface{}, headers map[string]string, to ...time.Duration) ([]byte, error) {
+	timeout := defaultTimeout
+	if len(to) > 0 && to[0] > 0 {
+		timeout = to[0]
+	}
+
+	option := PostRequestOption{
+		URL:         url,
+		Headers:     headers,
+		Timeout:     timeout,
+		ContentType: ContentTypeJSON,
+	}
+
+	return postRequest(option, func(req *resty.Request) {
+		req.SetBody(data)
+	})
+}
+
 // PostForm 发送POST表单请求
 func PostForm(url string, formData map[string]string, headers map[string]string, to ...time.Duration) ([]byte, error) {
-	client := resty.New()
+	timeout := defaultTimeout
 	if len(to) > 0 && to[0] > 0 {
-		client.SetTimeout(to[0])
-	} else {
-		client.SetTimeout(defaultTimeout)
+		timeout = to[0]
 	}
 
-	req := client.R()
-	req.SetFormData(formData)
-	req.SetHeader("Content-Type", ContentTypeForm)
-
-	for k, v := range headers {
-		req.SetHeader(k, v)
+	option := PostRequestOption{
+		URL:         url,
+		Headers:     headers,
+		Timeout:     timeout,
+		ContentType: ContentTypeForm,
 	}
 
-	resp, err := req.Post(url)
-	if err != nil {
-		return nil, fmt.Errorf("POST form request failed: %w", err)
-	}
-
-	if resp.StatusCode() < 200 || resp.StatusCode() >= 300 {
-		return nil, fmt.Errorf("POST form failed, status code: %d", resp.StatusCode())
-	}
-
-	return io.ReadAll(resp.Body)
+	return postRequest(option, func(req *resty.Request) {
+		req.SetFormData(formData)
+	})
 }
