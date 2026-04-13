@@ -52,25 +52,34 @@ func (*implUIDGenAPIWithUUID) GetOne(length int) (int64, error) {
 	if length < 1 {
 		return 0, fmt.Errorf("length too small")
 	}
-
-	// 步骤1: 生成UUID v7（基于时间戳的UUID）
-	// UUID v7格式: timestamp(48bit) + random(74bit) + version(4bit) + variant(2bit)
-	u, err := uuid.NewV7() // v7根据timestamp生成
-	if err != nil {
-		return 0, err
+	if length > 18 {
+		return 0, fmt.Errorf("length too large")
 	}
-
-	// 步骤2: 将UUID字节数组转换为大整数
-	// UUID是16字节的数组，转换为一个很大的整数
-	num := new(big.Int).SetBytes(u[:])
 
 	// 步骤3: 计算模数 10^length，用于限制UID位数
 	// 使用Exp方法进行正确的幂运算（避免位运算XOR的错误）
 	modulus := new(big.Int).Exp(big.NewInt(10), big.NewInt(int64(length)), nil)
 
-	// 步骤4: 取模运算得到指定位数内的UID
-	result := new(big.Int).Mod(num, modulus)
+	var min = new(big.Int).Exp(big.NewInt(10), big.NewInt(int64(length-1)), nil)
 
-	// 步骤5: 转换为int64返回
-	return result.Int64(), nil
+	for {
+		// 步骤1: 生成UUID v7（基于时间戳的UUID）
+		// UUID v7格式: timestamp(48bit) + random(74bit) + version(4bit) + variant(2bit)
+		u, err := uuid.NewV7() // v7根据timestamp生成
+		if err != nil {
+			return 0, err
+		}
+
+		// 步骤2: 将UUID字节数组转换为大整数
+		// UUID是16字节的数组，转换为一个很大的整数
+		num := new(big.Int).SetBytes(u[:])
+
+		// 步骤4: 取模运算得到指定位数内的UID
+		result := new(big.Int).Mod(num, modulus)
+
+		if result.Cmp(min) >= 0 {
+			// 步骤5: 转换为int64返回
+			return result.Int64(), nil
+		}
+	}
 }
