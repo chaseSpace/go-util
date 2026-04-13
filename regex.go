@@ -3,6 +3,8 @@ package goutil
 import (
 	"net"
 	"regexp"
+
+	"github.com/dlclark/regexp2"
 )
 
 var (
@@ -90,4 +92,21 @@ func MaskEmail(email string) string {
 	// 保留首尾字符，中间用*代替
 	maskedUsername := string(username[0]) + "***" + string(username[len(username)-1])
 	return maskedUsername + "@" + domain
+}
+
+var (
+	btcRegex  = regexp2.MustCompile(`(?=.*[a-zA-Z])(?=.*\d)[13][a-km-zA-HJ-NP-Z1-9]{25,34}`, regexp2.IgnoreCase) // 比特币地址
+	ethRegex  = regexp2.MustCompile(`(?=.*[a-fA-F])(?=.*\d)0x[a-fA-F0-9]{40}`, regexp2.IgnoreCase)               // 以太坊地址
+	usdtRegex = regexp2.MustCompile(`(?=.*[a-zA-Z])(?=.*\d)T[a-zA-Z0-9]{33}`, regexp2.IgnoreCase)                // TRC20 地址
+)
+
+// RegMatchBlockChainAddress 匹配以太坊、TRON、BNB 等区块链地址
+func RegMatchBlockChainAddress(address string) (bool, string) {
+	for _, re := range []*regexp2.Regexp{btcRegex, ethRegex, usdtRegex} {
+		match, _ := re.FindStringMatch(address)
+		if match != nil && match.Length > 0 {
+			return true, string(match.Runes())
+		}
+	}
+	return false, ""
 }

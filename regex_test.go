@@ -238,6 +238,82 @@ func TestMaskEmail(t *testing.T) {
 	}
 }
 
+func TestRegMatchBlockChainAddress(t *testing.T) {
+	tests := []struct {
+		name          string
+		input         string
+		expectMatched bool
+		expectValue   string
+	}{
+		{
+			name:          "标准比特币地址",
+			input:         "1BoatSLRHtKNngkdXEeobR76b53LETtpyT",
+			expectMatched: true,
+			expectValue:   "1BoatSLRHtKNngkdXEeobR76b53LETtpyT",
+		},
+		{
+			name:          "字符串中包含以太坊地址",
+			input:         "transfer to 0xde0B295669a9FD93d5F28D9Ec85E40f4cb697BAe immediately",
+			expectMatched: true,
+			expectValue:   "0xde0B295669a9FD93d5F28D9Ec85E40f4cb697BAe",
+		},
+		{
+			name:          "TRC20/USDT 地址",
+			input:         "TQeaJxTTsCaljvzfUu9S4eY4qRhXj4K2nT",
+			expectMatched: true,
+			expectValue:   "TQeaJxTTsCaljvzfUu9S4eY4qRhXj4K2nT",
+		},
+		{
+			name:          "多个地址取第一个",
+			input:         "fallback 1BoatSLRHtKNngkdXEeobR76b53LETtpyT or 0xde0B295669a9FD93d5F28D9Ec85E40f4cb697BAe",
+			expectMatched: true,
+			expectValue:   "1BoatSLRHtKNngkdXEeobR76b53LETtpyT",
+		},
+		{
+			name:          "小写以太坊地址",
+			input:         "0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae",
+			expectMatched: true,
+			expectValue:   "0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae",
+		},
+		{
+			name:          "无效比特币地址长度",
+			input:         "1BoatSLRHtKNngkdXEeobR76",
+			expectMatched: false,
+			expectValue:   "",
+		},
+		{
+			name:          "无效地址",
+			input:         "0x12345",
+			expectMatched: false,
+			expectValue:   "",
+		},
+		{
+			name:          "纯数字",
+			input:         "12345678901234567890123456789012",
+			expectMatched: false,
+			expectValue:   "",
+		},
+		{
+			name:          "纯字母",
+			input:         "abcdefABCDEFabcdefABCDEFabcdefABCDEF",
+			expectMatched: false,
+			expectValue:   "",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			matched, value := RegMatchBlockChainAddress(tt.input)
+			if matched != tt.expectMatched {
+				t.Fatalf("RegMatchBlockChainAddress(%q) matched = %v, expect %v", tt.input, matched, tt.expectMatched)
+			}
+			if value != tt.expectValue {
+				t.Fatalf("RegMatchBlockChainAddress(%q) value = %q, expect %q", tt.input, value, tt.expectValue)
+			}
+		})
+	}
+}
+
 func TestGetMonthStartEnd(t *testing.T) {
 	tests := []struct {
 		name      string
