@@ -66,11 +66,12 @@ func Get(url string, headers map[string]string, to ...time.Duration) ([]byte, er
 		return nil, fmt.Errorf("GET request failed: %w", err)
 	}
 
+	body, readerr := io.ReadAll(resp.Body)
 	if resp.StatusCode() < 200 || resp.StatusCode() >= 300 {
-		return nil, fmt.Errorf("GET failed, status code: %d", resp.StatusCode())
+		return nil, fmt.Errorf("GET failed, status code: %d, BODY: %s", resp.StatusCode(), body)
 	}
 
-	return io.ReadAll(resp.Body)
+	return body, readerr
 }
 
 // PostRequestOption 定义POST请求的选项
@@ -110,11 +111,12 @@ func postRequest(option PostRequestOption, setData func(*resty.Request)) ([]byte
 		return nil, fmt.Errorf("POST request failed: %w", err)
 	}
 
+	body, readerr := io.ReadAll(resp.Body)
 	if resp.StatusCode() < 200 || resp.StatusCode() >= 300 {
-		return nil, fmt.Errorf("POST failed, status code: %d", resp.StatusCode())
+		return nil, fmt.Errorf("POST failed, status code: %d, BODY: %s", resp.StatusCode(), body)
 	}
 
-	return io.ReadAll(resp.Body)
+	return body, readerr
 }
 
 // PostJSON 发送POST JSON请求
